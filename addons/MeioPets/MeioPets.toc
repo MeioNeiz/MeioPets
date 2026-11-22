@@ -5,6 +5,8 @@
 ## Author: MeioNeiz
 ## X-Website: https://github.com/MeioNeiz/MeioPets
 ## X-License: MIT
+## X-Curse-Project-ID: 1824273
+## X-Wago-ID: x61x0vN1
 ## Category: Meio
 ## IconTexture: Interface\Icons\Ability_Hunter_MendPet
 ## AddonCompartmentFunc: MeioPets_OnAddonCompartmentClick
