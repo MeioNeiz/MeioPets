@@ -1,0 +1,29 @@
+{
+  "title": "Meio Pets",
+  "summary": "Warns hunters and warlocks when their pet's health runs low, when it dies, and when it isn't back after the fight.",
+  "cfCategory": "Combat",
+  "cfExtra": [
+    "Unit Frames"
+  ],
+  "wagoCategories": [
+    "Combat",
+    "Unit Frames"
+  ],
+  "gallery": [
+    {
+      "file": "before-after.png",
+      "title": "Before and after",
+      "description": "A Voidwalker at 22% health in a fight: the pet frame alone, then with the red pulse around it"
+    },
+    {
+      "file": "died.png",
+      "title": "Pet died",
+      "description": "The line in the middle of the screen when your pet dies"
+    },
+    {
+      "file": "reminder.png",
+      "title": "No pet reminder",
+      "description": "After the fight, a reminder to summon your demon (Call Pet or Revive Pet for hunters)"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+package-as: MeioPets
+
+move-folders:
+  MeioPets/addons/MeioPets: MeioPets
+
+ignore:
+  - docs
+  - README.md
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
