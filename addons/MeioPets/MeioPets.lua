@@ -39,12 +39,14 @@ local SACRIFICE_BUFFS = { 18789, 18790, 18791, 18792 }
 local LET_GO = { [2641] = true, [18788] = true, [883] = true, [1122] = true, [18540] = true,
     [1098] = true, [11725] = true, [11726] = true }
 for _, id in ipairs(WARLOCK_SUMMONS) do LET_GO[id] = true end
+local ENSLAVE = { [1098] = true, [11725] = true, [11726] = true }
 
 local db, class
 local armed = true
 local petAlive, petName = false, nil
 local lostPet = false
 local letGoAt = 0
+local enslaveAt, enslaved = 0, false -- the pet out is a demon held by Enslave Demon
 local stableOpen = false -- a hunter swapping or stabling pets
 local fight -- this fight's { readable, secret }, once a pet was seen in it
 ns.fight = nil -- this or the last fight with a pet
@@ -295,7 +297,10 @@ local function CheckPet()
     if not ns.Active() then return end
     local exists, dead = UnitExists("pet"), UnitIsDead("pet")
     if exists and not dead then
-        if not petAlive then armed = true end
+        if not petAlive then
+            armed = true
+            enslaved = GetTime() - enslaveAt < 3
+        end
         petAlive, lostPet = true, false
         local name = UnitName("pet")
         if Readable(name) then petName = name end
@@ -308,14 +313,20 @@ local function CheckPet()
     end
     -- vanished (a warlock's demon leaves no corpse): a death only in a fight, with no cast
     -- that sent it away and the player still up; decided a moment later, as the cast's
-    -- event can come after UNIT_PET
+    -- event can come after UNIT_PET. An enslaved demon vanishing broke free: not a death.
     petAlive = false
-    local combat = InCombat()
+    local combat, wasEnslaved = InCombat(), enslaved
+    enslaved = false
     C_Timer.After(0.3, function()
         if UnitExists("pet") then return end
         local onPurpose = stableOpen or GetTime() - letGoAt < 1.5
         if onPurpose then
             StopPulse()
+            return
+        end
+        if wasEnslaved then
+            Lost(false)
+            if db.died then ShowText((petName or "Your demon") .. " broke free", 1, 0.5, 0.1) end
             return
         end
         Lost(combat and not UnitIsDeadOrGhost("player"))
@@ -331,17 +342,23 @@ local function Sacrificed()
     return false
 end
 
--- FlareUI's Buff Reminders module loaded with its pet reminder not hidden
+-- FlareUI's Buff Reminders would show its pet reminder here and now: the module loaded and
+-- still on, the pet reminder not hidden, and its Where (petScope) taking in where you are
+local function FlareInScope(mode)
+    if not mode or mode == "always" or mode == "mouseover" then return true end
+    local inInstance, kind = IsInInstance()
+    if mode == "raid" then return inInstance and kind == "raid" or false end
+    return inInstance and (kind == "party" or kind == "raid") or false
+end
+
 function ns.FlareCovers()
     if not _G.FlareUI_BuffReminders then return false end
-    local sv = _G.FlareUI2_DB
-    local keys, profiles = sv and sv.profileKeys, sv and sv.profiles
-    if not (keys and profiles) then return true end
-    local name, realm = UnitName("player"), GetRealmName()
-    local key = keys[name .. " - " .. realm] or keys[name .. " " .. realm]
-    local p = key and profiles[key]
-    local hidden = p and p.auras and p.auras.reminder and p.auras.reminder.hidden
-    return not (hidden and hidden[class .. ":pet"])
+    local flare = _G.FlareUI
+    local auras = type(flare) == "table" and flare.db and flare.db.profile and flare.db.profile.auras
+    if not auras or not auras.reminders then return false end
+    local r = auras.reminder or {}
+    if r.pets == false or (r.hidden and r.hidden[class .. ":pet"]) then return false end
+    return FlareInScope(r.petScope)
 end
 
 local function NoPetLine()
@@ -422,6 +439,10 @@ events:SetScript("OnEvent", function(_, event, arg1, _, spellID)
         CheckHealth()
     elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
         if LET_GO[spellID] then letGoAt = GetTime() end
+        if ENSLAVE[spellID] then
+            enslaveAt = GetTime()
+            if UnitExists("pet") then enslaved = true end
+        end
     elseif event == "PET_STABLE_SHOW" then
         stableOpen = true
     elseif event == "PET_STABLE_CLOSED" then
@@ -487,7 +508,7 @@ local function Status()
         print("  Last fight: pet health was readable at times - sound when it could be read.")
     end
     if ns.FlareCovers() then
-        print("  No pet reminder: FlareUI's Buff Reminders shows it, so MeioPets stays quiet.")
+        print("  No pet reminder: FlareUI's Buff Reminders shows it here, so MeioPets stays quiet.")
     end
 end
 

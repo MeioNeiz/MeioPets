@@ -12,9 +12,11 @@ so you heal it or pull it back in time.
 
 - Red pulse around the pet frame (Blizzard's or FlareUI's) under 35% health, or your own
   threshold
-- A line with its name and a sound when your pet dies
+- A line with its name and a sound when your pet dies; an enslaved demon breaking free gets
+  its own line, without the sound
 - A few seconds after the fight, or after you are resurrected, a reminder when your pet
-  isn't back: Call Pet, Revive Pet or summon your demon
+  isn't back: Call Pet, Revive Pet or summon your demon. Left to FlareUI wherever its own
+  pet reminder would show
 - A sound with each warning, four to pick from; each warning can be turned off
 
 In a fight the game hides pet health from addons, so low health then pulses without a

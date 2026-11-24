@@ -1,7 +1,7 @@
 ## Interface: 16001
 ## Title: MeioPets
 ## Notes: Sound and a flash on the pet frame when your pet's health runs low, a warning when it dies, and a reminder to bring it back. /meiopets
-## Version: 1.0.0
+## Version: 1.0.1
 ## Author: MeioNeiz
 ## X-Website: https://github.com/MeioNeiz/MeioPets
 ## X-License: MIT
