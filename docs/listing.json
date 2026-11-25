@@ -13,7 +13,7 @@
     {
       "file": "before-after.png",
       "title": "Before and after",
-      "description": "A Voidwalker at 22% health in a fight: the pet frame alone, then with the red pulse around it"
+      "description": "A Voidwalker at 22% health in a fight, under the player frame: the pet frame alone, then with the red pulse around it"
     },
     {
       "file": "died.png",

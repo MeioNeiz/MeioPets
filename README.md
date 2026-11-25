@@ -4,8 +4,8 @@ Know when your pet is in trouble: low health, dead, or not back after the fight.
 
 For WoW Forever.
 
-![A Voidwalker at 22% health in a fight: before, only the pet frame; with Meio Pets, a red
-pulse around it](docs/before-after.png)
+![A Voidwalker at 22% health in a fight, under the player frame: before, only the pet frame;
+with Meio Pets, a red pulse around it](docs/before-after.png)
 
 ## What it does
 
