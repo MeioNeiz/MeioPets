@@ -31,6 +31,12 @@ Settings: Esc > Options > AddOns > MeioPets, or `/meiopets`.
 - `/meiopets status`: what it could read in your last fight
 - `/meiopets help`: every command
 
+## Coming soon
+
+- A warning when your pet's mode is wrong for where you are: Aggressive in a dungeon,
+  Passive while solo
+- Hunter pet happiness and a reminder to feed
+
 ## Install
 
 Use your addon manager (CurseForge, Wago), or unzip a GitHub release into
