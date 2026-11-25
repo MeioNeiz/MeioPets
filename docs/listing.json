@@ -1,6 +1,6 @@
 {
   "title": "Meio Pets",
-  "summary": "Warns hunters and warlocks when their pet's health runs low, when it dies, and when it isn't back after the fight.",
+  "summary": "Warns hunters and warlocks when their pet is low, dead, or not back after a fight.",
   "cfCategory": "Combat",
   "cfExtra": [
     "Unit Frames"
